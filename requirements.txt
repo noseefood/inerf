@@ -6,6 +6,6 @@ matplotlib
 configargparse
 tensorboard==1.14.0
 tqdm
-opencv-python==4.2.0.34
-opencv-contrib-python
+opencv-python
+opencv-contrib-python ==4.4.0.44
 scikit-image

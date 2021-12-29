@@ -1,6 +1,6 @@
-#个人Debug
-##依赖库的问题
-###opencv的安装
+# 个人Debug
+## 依赖库的问题
+### opencv的安装
 requirements里面需要修改以下部分，opencv不用指定版本，但opencv-contrib-python必须指定>4.4.0以上的版本，否则会出现SIFT无法使用的错误
 >opencv-contrib-python ==4.4.0.44>
 

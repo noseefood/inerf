@@ -167,18 +167,26 @@ def load_blender(data_dir, model_name, obs_img_num, half_res, white_bkgd, *kwarg
 
 
 def rgb2bgr(img_rgb):
+    # 将一个图像从一个颜色空间转换到另一个颜色空间，RGB颜色由三部分组成：红色（0-255），绿色（0-255）和蓝色（0-255）
+    # BGR相同，除了区域顺序相反。红色占最低有效区域，绿色占第二（静止），蓝色占第三
+    # 输入的img_rgb
     img_bgr = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
     return img_bgr
 
 
 def show_img(title, img_rgb):  # img - rgb image
+    # 先将RGB空间的img转换为BGR空间的img
     img_bgr = rgb2bgr(img_rgb)
+    # 显示图片
     cv2.imshow(title, img_bgr)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
 
-def find_POI(img_rgb, DEBUG=False): # img - RGB image in range 0...255
+def find_POI(img_rgb, DEBUG=False):
+    # img - RGB image in range 0...255
+    # find points of interest of the observed image 从输入的img种提取points of interest
+    # 利用SIFT特征点
     img = np.copy(img_rgb)
     img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     sift = cv2.SIFT_create()

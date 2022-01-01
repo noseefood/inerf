@@ -14,7 +14,7 @@ np.random.seed(0)
 
 def run():
 
-    # Parameters
+    # Parameters 参数传递
     parser = config_parser()
     args = parser.parse_args()
     output_dir = args.output_dir
@@ -84,10 +84,12 @@ def run():
         show_img("Observed image", obs_img_noised)
 
     # find points of interest of the observed image
-    POI = find_POI(obs_img_noised, DEBUG)  # xy pixel coordinates of points of interest (N x 2)
+    POI = find_POI(obs_img_noised, DEBUG)  # xy pixel coordinates of points of interest (N x 2) 利用特征点SIFT抓取的兴趣点坐标
+    # 标准化？ 除以255
     obs_img_noised = (np.array(obs_img_noised) / 255.).astype(np.float32)
 
     # create meshgrid from the observed image
+    # meshgrid函数就是用两个坐标轴上的点在平面上画网格(当然这里传入的参数是两个的时候)。当然我们可以指定多个参数，比如三个参数，那么我们的就可以用三个一维的坐标轴上的点在三维平面上画网格
     coords = np.asarray(np.stack(np.meshgrid(np.linspace(0, W - 1, W), np.linspace(0, H - 1, H)), -1),
                         dtype=int)
 
@@ -117,7 +119,7 @@ def run():
     cam_transf = camera_transf().to(device)
     optimizer = torch.optim.Adam(params=cam_transf.parameters(), lr=lrate, betas=(0.9, 0.999))
 
-    # calculate angles and translation of the observed image's pose
+    # calculate angles and translation of the observed image's pose 欧拉角加平移
     phi_ref = np.arctan2(obs_img_pose[1,0], obs_img_pose[0,0])*180/np.pi
     theta_ref = np.arctan2(-obs_img_pose[2, 0], np.sqrt(obs_img_pose[2, 1]**2 + obs_img_pose[2, 2]**2))*180/np.pi
     psi_ref = np.arctan2(obs_img_pose[2, 1], obs_img_pose[2, 2])*180/np.pi
